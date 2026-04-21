@@ -10,29 +10,74 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-<script type="text/javascript">
-window.$crisp=[];
-window.CRISP_WEBSITE_ID="90d46834-e38f-4b5e-bf5b-ae6b4e8e42fa";
+<!-- SUBSTITUA APENAS O BLOCO DO CRISP (NO <head>) POR ESTE -->
 
-(function(){
-var d=document;
-var s=d.createElement("script");
-s.src="https://client.crisp.chat/l.js";
-s.async=1;
-d.head.appendChild(s);
+<script type="text/javascript">
+window.$crisp = [];
+window.CRISP_WEBSITE_ID = "90d46834-e38f-4b5e-bf5b-ae6b4e8e42fa";
+
+/* Dados da assistente */
+window.CRISP_RUNTIME_CONFIG = {
+  locale : "pt-br"
+};
+
+window.CRISP_READY_TRIGGER = function () {
+
+  /* Nome e avatar da Gê */
+  $crisp.push(["set", "user:nickname", ["Visitante"]]);
+  $crisp.push(["set", "session:data", [[
+    ["assistente","Gê"]
+  ]]]);
+
+  /* Mensagem automática após abrir */
+  setTimeout(function(){
+    $crisp.push(["do","chat:open"]);
+    $crisp.push(["do","message:show",["Olá 👋 Eu sou a Gê da Genesis Mobilidade. Posso te ajudar a escolher sua scooter elétrica ou fazer uma simulação 😊"]]);
+  }, 8000);
+
+  /* CSS premium */
+  const style = document.createElement("style");
+  style.innerHTML = `
+    
+    /* sobe acima do footer */
+    .crisp-client iframe,
+    .crisp-client .cc-1xry,
+    .crisp-client .cc-unoo{
+      bottom:95px !important;
+      right:18px !important;
+    }
+
+    /* z-index máximo */
+    .crisp-client{
+      z-index:999999 !important;
+    }
+
+    /* botão pulsando */
+    .crisp-client .cc-1xry,
+    .crisp-client .cc-unoo{
+      animation:pulseCrisp 1.8s infinite !important;
+      border-radius:50% !important;
+      box-shadow:0 0 0 rgba(0,255,136,.7);
+    }
+
+    @keyframes pulseCrisp{
+      0%{transform:scale(1);box-shadow:0 0 0 0 rgba(0,255,136,.7)}
+      70%{transform:scale(1.08);box-shadow:0 0 0 18px rgba(0,255,136,0)}
+      100%{transform:scale(1);box-shadow:0 0 0 0 rgba(0,255,136,0)}
+    }
+
+  `;
+  document.head.appendChild(style);
+};
+
+(function () {
+  var d = document;
+  var s = d.createElement("script");
+  s.src = "https://client.crisp.chat/l.js";
+  s.async = 1;
+  d.head.appendChild(s);
 })();
 </script>
-
-<style>
-/* SOBE BOTÃO CRISP */
-#crisp-chatbox,
-.crisp-client,
-.crisp-client .cc-kv6t,
-.crisp-client .cc-1brb6{
-bottom:90px !important;
-right:20px !important;
-}
-</style>
 <style>
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 body{background:#000;color:#fff;overflow-x:hidden}
