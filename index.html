@@ -10,35 +10,35 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="manifest" href="site.webmanifest">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
-<!-- SUBSTITUA APENAS O BLOCO DO CRISP (NO <head>) POR ESTE -->
+
+
+<!-- SUBSTITUA O BLOCO CRISP PELO CÓDIGO ABAIXO -->
+<!-- NÃO ABRE AUTOMATICAMENTE -->
 
 <script type="text/javascript">
 window.$crisp = [];
 window.CRISP_WEBSITE_ID = "90d46834-e38f-4b5e-bf5b-ae6b4e8e42fa";
 
-/* Dados da assistente */
 window.CRISP_RUNTIME_CONFIG = {
-  locale : "pt-br"
+  locale: "pt-br"
 };
 
 window.CRISP_READY_TRIGGER = function () {
 
-  /* Nome e avatar da Gê */
+  /* Nome visitante */
   $crisp.push(["set", "user:nickname", ["Visitante"]]);
-  $crisp.push(["set", "session:data", [[
-    ["assistente","Gê"]
-  ]]]);
 
-  /* Mensagem automática após abrir */
-  setTimeout(function(){
-    $crisp.push(["do","chat:open"]);
-    $crisp.push(["do","message:show",["Olá 👋 Eu sou a Gê da Genesis Mobilidade. Posso te ajudar a escolher sua scooter elétrica ou fazer uma simulação 😊"]]);
+  /* Mensagem automática no balão sem abrir chat */
+  setTimeout(function () {
+    $crisp.push(["do", "message:show", [
+      "Olá 👋 Eu sou a Gê da Genesis Mobilidade. Posso te ajudar a escolher sua scooter elétrica ou fazer uma simulação 😊"
+    ]]);
   }, 8000);
 
   /* CSS premium */
   const style = document.createElement("style");
   style.innerHTML = `
-    
+
     /* sobe acima do footer */
     .crisp-client iframe,
     .crisp-client .cc-1xry,
@@ -82,6 +82,7 @@ window.CRISP_READY_TRIGGER = function () {
 *{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
 body{background:#000;color:#fff;overflow-x:hidden}
 canvas{position:fixed;top:0;left:0;z-index:-1;filter: blur(1.5px)}
+
 
 
 /* LOADER */
