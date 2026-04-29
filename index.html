@@ -176,7 +176,9 @@ header{display:flex;justify-content:space-between;padding:20px}
 }
 
 .popup{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.9);display:none;align-items:center;justify-content:center;z-index:1000}
-.popup-content{background:#111;padding:30px;border-radius:15px;text-align:center;box-shadow:0 0 30px #00FF88}
+.popup-content{background:#111;padding:30px;border-radius:15px;text-align:center;box-shadow:0 0 30px #00FF88;position:relative}
+.popup-close{position:absolute;top:10px;right:10px;background:none;border:none;color:#00FF88;font-size:28px;cursor:pointer;width:40px;height:40px;display:flex;align-items:center;justify-content:center;transition:.3s}
+.popup-close:hover{color:#fff;transform:scale(1.2)}
 
 
 /* SLIDER */
@@ -304,6 +306,47 @@ header{display:flex;justify-content:space-between;padding:20px}
  align-items:center;
  justify-content:center;
 }
+
+/* PROVA SOCIAL */
+.social-slider{
+  display:flex;
+  gap:20px;
+  overflow-x:auto;
+  padding:20px;
+  scroll-snap-type:x mandatory;
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+}
+
+.social-slider::-webkit-scrollbar{display:none}
+
+.social-card{
+  flex:0 0 75%;
+  max-width:300px;
+  scroll-snap-align:center;
+  border-radius:15px;
+  overflow:hidden;
+  box-shadow:0 0 15px rgba(0,255,136,0.3);
+  transition:.4s;
+}
+
+@media(min-width:768px){
+  .social-card{flex:0 0 30%;}
+}
+
+.social-card:hover{
+  box-shadow:0 0 30px rgba(0,255,136,0.6);
+  filter:brightness(1.1);
+  transform:scale(1.05);
+}
+
+.social-card img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+}
+
 </style>
 </head>
 
@@ -320,7 +363,7 @@ header{display:flex;justify-content:space-between;padding:20px}
 </header>
 
 <section class="hero">
-<h1>PARE DE GASTAR COM GASOLINA ⚡</h1>
+<h1>SEM ÔNIBUS LOTADO. SEM GASOLINA. MAIS LIBERDADE ⚡</h1>
 <p>Sem gasolina. Sem dor de cabeça. Só carregar e sair.</p>
 <div id="online" class="counter"></div>
 <button class="cta" onclick="abrirWhats()">Falar no WhatsApp</button>
@@ -339,6 +382,11 @@ header{display:flex;justify-content:space-between;padding:20px}
 <div class="slider" id="slider">
   <div class="slides">
 
+    <div class="card model">
+      <img src="g12.png" class="scooter-img">
+      <button class="cta" onclick="falarModelo('Juna')">Quero saber mais</button>
+    </div>
+    
     <div class="card model">
       <img src="juna.jpg" class="scooter-img">
       <button class="cta" onclick="falarModelo('Juna')">Quero saber mais</button>
@@ -384,6 +432,30 @@ header{display:flex;justify-content:space-between;padding:20px}
 </section>
 
 <section class="section">
+<h2>Clientes satisfeitos ⭐</h2>
+
+<div style="position:relative">
+
+<button class="arrow left" onclick="scrollSocialSlider(-1)">←</button>
+<button class="arrow right" onclick="scrollSocialSlider(1)">→</button>
+
+<div class="social-slider" id="socialSlider">
+  <div class="social-card"><img src="postado.png" alt="Cliente Genesis"></div>
+  <div class="social-card"><img src="postado (2).png" alt="Cliente Genesis"></div>
+  <div class="social-card"><img src="postado (3).png" alt="Cliente Genesis"></div>
+  <div class="social-card"><img src="postado (4).png" alt="Cliente Genesis"></div>
+  <div class="social-card"><img src="postado (5).png" alt="Cliente Genesis"></div>
+  <div class="social-card"><img src="postado (6).png" alt="Cliente Genesis"></div>
+  <div class="social-card"><img src="postado (7).png" alt="Cliente Genesis"></div>
+  <div class="social-card"><img src="postado (8).png" alt="Cliente Genesis"></div>
+  <div class="social-card"><img src="postado (9).png" alt="Cliente Genesis"></div>
+</div>
+
+</div>
+
+</section>
+
+<section class="section">
 <h2>Receba uma proposta</h2>
 <div class="form">
 <input id="nome" placeholder="Seu nome"><br>
@@ -421,6 +493,7 @@ header{display:flex;justify-content:space-between;padding:20px}
 
 <div class="popup" id="popup">
   <div class="popup-content">
+    <button class="popup-close" onclick="fecharPopup()">✕</button>
     <h2>⚠️ ESPERA!</h2>
     <p>Você pode economizar MUITO, começando hoje.</p>
     <button class="cta" onclick="abrirWhats()">Falar agora</button>
@@ -452,6 +525,10 @@ let msg=`Olá! Meu nome é ${nome} e quero saber sobre as scooters. Meu número:
 window.open(`https://wa.me/5535998501811?text=${encodeURIComponent(msg)}`,'_blank')
 }
 
+function fecharPopup(){
+document.getElementById('popup').style.display='none';
+}
+
 function pessoasOnline(){
 const n=Math.floor(Math.random()*8)+3;
 document.getElementById('online').innerText=`👀 ${n} pessoas vendo agora`;
@@ -473,6 +550,12 @@ document.addEventListener("mouseout",function(e){
  if(e.clientY<10 && !saiu){
   document.getElementById('popup').style.display='flex';
   saiu=true;
+ }
+});
+
+document.getElementById('popup').addEventListener('click',function(e){
+ if(e.target===this){
+  fecharPopup();
  }
 });
 
@@ -610,6 +693,14 @@ document.addEventListener("DOMContentLoaded", () => {
     const walk = (x - startX) * 1.5;
     sliderEl.scrollLeft = scrollLeft - walk;
   });
+
+  // ===== SOCIAL SLIDER =====
+  window.scrollSocialSlider = function (dir) {
+    const socialSlider = document.getElementById('socialSlider');
+    const socialCard = socialSlider.querySelector('.social-card');
+    const cardWidth = socialCard.offsetWidth + 20;
+    socialSlider.scrollBy({ left: dir * cardWidth, behavior: 'smooth' });
+  };
 
 });
 </script>
